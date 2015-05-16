@@ -24,10 +24,17 @@ else
 fi
 
 
-#reading and storing DigitalOcean API Key
-echo "enter your DigitalOcean API Key to start setting up your new droplet"
+#checking if API key is stored in '$DO_PAT' 
+if [ -z "$DO_PAT" ]; then
+  echo "no PAT variable exists" #manually enter the key
+  echo "enter your DigitalOcean API Key to start setting up your new droplet"
+  read DOKey
+else
+  echo "pat exist"
+  DOKey=$(echo $DO_PAT)
+fi
 
-read DOKey
+
 
 #checking if a the rsa public key stored in ~/.ssh/id_rsa.pub exists in provided DO account, and if not, POST it there
 sshkeyFP=$(ssh-keygen -lf ~/.ssh/id_rsa.pub | awk '{print $2}')
@@ -45,4 +52,8 @@ else
 fi
 
 
+#now starting terraform magic and creating the instance
 
+terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" 
+
+terraform show
