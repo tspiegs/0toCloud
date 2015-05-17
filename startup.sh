@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+function usage 
+{ echo "run startup script to create and destroy cloud instances 
+  available distros:  "
+  cat ./distros.txt
+}
+
 while [ "$1" != "" ]; do
     case $1 in
         -d | --distro )         shift
