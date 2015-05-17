@@ -6,10 +6,14 @@ while [ "$1" != "" ]; do
                                 distro=$1
                                 ;;
         -h | --hostname )       shift
-                                hostname=1
+                                hostname=$1
+                                ;;
+        -p | --plan )           plan=1
                                 ;;
         -h | --help )           usage
                                 exit
+                                ;;
+        -D | --destroy )        destroy=1
                                 ;;
         * )                     usage
                                 exit 1
@@ -17,8 +21,8 @@ while [ "$1" != "" ]; do
     shift
 done
 
-if [ -z "$distro" ]; then
-  distro = "ubuntu-14-04-x64"
+if [ -z $distro ]; then
+  distro="ubuntu-14-04-x64"
 fi
 
 #is terrform an executable application? 
@@ -71,6 +75,17 @@ else
   echo "can't detect ssh key status, something is VERY wrong here……"
 fi
 
+
+
+if [ $destroy -eq 1 ]; then
+  terraform destroy -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" 
+  exit 1
+fi
+
+if [ $plan -eq 1 ]; then
+  terraform plan -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" 
+  exit 1
+fi
 
 #now starting terraform magic and creating the instance
 
