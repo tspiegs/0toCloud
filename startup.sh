@@ -1,5 +1,25 @@
 #!/usr/bin/env bash
 
+while [ "$1" != "" ]; do
+    case $1 in
+        -d | --distro )         shift
+                                distro=$1
+                                ;;
+        -h | --hostname )       shift
+                                hostname=1
+                                ;;
+        -h | --help )           usage
+                                exit
+                                ;;
+        * )                     usage
+                                exit 1
+    esac
+    shift
+done
+
+if [ -z "$distro" ]; then
+  distro = "ubuntu-14-04-x64"
+fi
 
 #is terrform an executable application? 
 type terraform >/dev/null 2>&1 || { echo "Dowloading and setting up Terraform" \ 
@@ -54,6 +74,6 @@ fi
 
 #now starting terraform magic and creating the instance
 
-terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" 
+terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}"
 
 terraform show

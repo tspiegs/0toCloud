@@ -1,5 +1,5 @@
 resource "digitalocean_droplet" "0toCloud" {
-  image = "ubuntu-14-04-x64"
+  image = "${var.do_distro}"
   name = "0toCloud"
   region = "nyc2"
   size = "512mb"
