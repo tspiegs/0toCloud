@@ -73,13 +73,13 @@ fi
 
 #checking if a the rsa public key stored in ~/.ssh/id_rsa.pub exists in provided DO account, and if not, POST it there
 sshkeyFP=$(ssh-keygen -lf ~/.ssh/id_rsa.pub | awk '{print $2}')
-curlkeystatus=$(curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer 36357c32fc84612f6a0dc937b9c8da4ea49a51a8955c43debfeae29ff6ec392f'  "https://api.digitalocean.com/v2/account/keys" | grep -ci $sshkeyFP)
+curlkeystatus=$(curl -X GET -H 'Content-Type: application/json' -H "Authorization: Bearer $DOKey"  "https://api.digitalocean.com/v2/account/keys" | grep -ci $sshkeyFP)
 if [ $curlkeystatus -eq 0 ]
 then
   echo "Putting your SSH key in DO"
   sshkeypub=$(cat ~/.ssh/id_rsa.pub)
   apijson=$(echo "{\"name\":\"My SSH Public Key\",\"public_key\":\"$sshkeypub\"}")
-  curl -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $DO_PAT" -d "$apijson" "https://api.digitalocean.com/v2/account/keys"
+  curl -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $DOKey" -d "$apijson" "https://api.digitalocean.com/v2/account/keys"
 elif [ $curlkeystatus -eq 1 ]; then
   echo "SSH Key properly in DO account, Continuing…."
 else
