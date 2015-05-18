@@ -31,6 +31,11 @@ if [ -z $distro ]; then
   distro="ubuntu-14-04-x64"
 fi
 
+#make sure unzip is installed 
+type unzip >/dev/null 2>&1 || { echo "Dowloading unzip via apt-get" \ 
+sudo apt-get -y install unzip
+}
+
 #is terrform an executable application? 
 type terraform >/dev/null 2>&1 || { echo "Dowloading and setting up Terraform" \ 
 wget https://dl.bintray.com/mitchellh/terraform/terraform_0.5.1_linux_amd64.zip \ 
