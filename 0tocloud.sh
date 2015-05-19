@@ -4,6 +4,7 @@ function usage
 { echo "run startup script to create and destroy cloud instances 
   available distros:  "
   cat ./distros.txt
+  echo 'use -d $distrotouse to change the distro'
 }
 
 while [ "$1" != "" ]; do
