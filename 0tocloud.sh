@@ -4,7 +4,7 @@ function usage
 { echo "run startup script to create and destroy cloud instances 
   available distros:  "
   cat ./distros.txt
-  echo 'use -d $distrotouse to change the distro'
+  echo 'use -d $distro to change the distro'
 }
 
 while [ "$1" != "" ]; do
@@ -17,7 +17,7 @@ while [ "$1" != "" ]; do
                                 ;;
         -p | --plan )           plan=1
                                 ;;
-        -h | --help )           usage
+        --help )                usage
                                 exit
                                 ;;
         -D | --destroy )        destroy=1
@@ -31,6 +31,12 @@ done
 if [ -z $distro ]; then
   distro="ubuntu-14-04-x64"
 fi
+
+if [ -z $hostname ]; then
+  hostname="0toCloud"
+fi
+
+echo "creating a $distro droplet with hostname $hostname"
 
 #make sure unzip is installed 
 type unzip >/dev/null 2>&1 || { echo "Dowloading unzip via apt-get" \ 
@@ -55,7 +61,7 @@ else
     echo "creating rsa key pair"
     ssh-keygen -t rsa
   else
-    echo "rsa key pair exists, continuing"
+    echo "rsa key pair needs to be created.  Place rsa key in ~/.ssh/id_rsa.pub or rerun this program and type yes to make a new key pair"
   fi
 fi
 
@@ -90,17 +96,17 @@ fi
 
 
 if [ $destroy -eq 1 ]; then
-  terraform destroy -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" 
+  terraform destroy -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" 
   exit 1
 fi
 
 if [ $plan -eq 1 ]; then
-  terraform plan -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" 
+  terraform plan -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" 
   exit 1
 fi
 
 #now starting terraform magic and creating the instance
 
-terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}"
+terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}"
 
 terraform show

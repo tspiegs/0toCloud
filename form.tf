@@ -1,6 +1,6 @@
 resource "digitalocean_droplet" "0toCloud" {
   image = "${var.do_distro}"
-  name = "0toCloud"
+  name = "${var.do_hostname}"
   region = "nyc2"
   size = "512mb"
   ssh_keys = [
