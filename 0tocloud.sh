@@ -35,6 +35,7 @@ else
   if [ $validdistro = 0 ]; then
     echo "distro does not seem valid"
     usage
+    exit
   fi
 fi
 
