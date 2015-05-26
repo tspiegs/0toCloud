@@ -30,6 +30,12 @@ done
 
 if [ -z $distro ]; then
   distro="ubuntu-14-04-x64"
+else
+  validdistro=$(grep -ci "^$distro$" ./distros.txt)
+  if [ $validdistro = 0 ]; then
+    echo "distro does not seem valid"
+    usage
+  fi
 fi
 
 if [ -z $hostname ]; then
@@ -62,6 +68,7 @@ else
     ssh-keygen -t rsa
   else
     echo "rsa key pair needs to be created.  Place rsa key in ~/.ssh/id_rsa.pub or rerun this program and type yes to make a new key pair"
+    exit
   fi
 fi
 
