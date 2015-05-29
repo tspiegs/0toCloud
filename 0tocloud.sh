@@ -105,17 +105,17 @@ fi
 
 
 
-if [ $destroy -eq 1 ]; then
+if [ $destroy -eq 1 ] >/dev/null 2>&1; then
   terraform destroy -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" 
   exit 1
 fi
 
-if [ $plan -eq 1 ]; then
+if [ $plan -eq 1 ] >/dev/null 2>&1; then
   terraform plan -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" 
   exit 1
 fi
 
-if [ $refresh -eq 1 ]; then
+if [ $refresh -eq 1 ] >/dev/null 2>&1; then
   terraform refresh -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" 
   exit 1
 fi
