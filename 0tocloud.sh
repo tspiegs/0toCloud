@@ -17,6 +17,8 @@ while [ "$1" != "" ]; do
                                 ;;
         -p | --plan )           plan=1
                                 ;;
+        -r | --refresh )        refresh=1
+                                ;;
         --help )                usage
                                 exit
                                 ;;
@@ -113,6 +115,10 @@ if [ $plan -eq 1 ]; then
   exit 1
 fi
 
+if [ $refresh -eq 1 ]; then
+  terraform refresh -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" 
+  exit 1
+fi
 #now starting terraform magic and creating the instance
 
 terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}"
