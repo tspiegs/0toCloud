@@ -16,7 +16,7 @@ function usage
     -s --show       terraform show
    
     "
-  echo "available options for distro and size:  "
+  echo "available options for distro, size, and region:  "
   cat ./distros.txt
 }
 
@@ -27,6 +27,9 @@ while [ "$1" != "" ]; do
                                 ;;
         -h | --hostname )       shift
                                 hostname=$1
+                                ;;
+        -R | --region )         shift
+                                region=$1
                                 ;;
         -p | --plan )           plan=1
                                 ;;
@@ -70,6 +73,10 @@ fi
 
 if [ -z $size ]; then
   size="512mb"
+fi
+
+if [ -z $region ]; then
+  region="nyc2"
 fi
 
 echo "creating a $size $distro droplet with hostname $hostname"
@@ -133,22 +140,22 @@ fi
 
 
 if [ $destroy -eq 1 ] >/dev/null 2>&1; then
-  terraform destroy -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}" 
+  terraform destroy -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}" -var "do_region=${region}"
   exit 1
 fi
 
 if [ $plan -eq 1 ] >/dev/null 2>&1; then
-  terraform plan -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}"
+  terraform plan -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}" -var "do_region=${region}"
   exit 1
 fi
 
 if [ $refresh -eq 1 ] >/dev/null 2>&1; then
-  terraform refresh -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}"
+  terraform refresh -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}" -var "do_region=${region}"
   exit 1
 fi
 
 #now starting terraform magic and creating the instance
 
-terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}"
+terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}" -var "do_region=${region}"
 
 terraform show
