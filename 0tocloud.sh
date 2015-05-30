@@ -3,10 +3,21 @@
 cd ${0%/*}
 
 function usage 
-{ echo "run startup script to create and destroy cloud instances 
-  available distros:  "
+{ echo "run 0tocloud.sh script to create and destroy cloud instances 
+  
+  "
+  echo " USAGE: 0tocloud.sh [-d distro] [-h hostname] [-p] [-r] [-s] [-D]
+
+  Options:
+    -d --distro     Change the distro used by the droplet.  Check distros.txt for available distros
+    -h --hostname   Set the hostname of the droplet
+    -p --plan       terraform plan
+    -r --refresh    terraform refresh
+    -s --show       terraform show
+   
+    "
+  echo "available distros:  "
   cat ./distros.txt
-  echo 'use -d $distro to change the distro'
 }
 
 while [ "$1" != "" ]; do
