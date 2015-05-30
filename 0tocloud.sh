@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd ${0%/*}
+
 function usage 
 { echo "run startup script to create and destroy cloud instances 
   available distros:  "
