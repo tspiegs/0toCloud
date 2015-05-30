@@ -16,7 +16,7 @@ function usage
     -s --show       terraform show
    
     "
-  echo "available distros:  "
+  echo "available options for distro and size:  "
   cat ./distros.txt
 }
 

@@ -1,10 +1,11 @@
-centos-5-8-x32
-centos-5-8-x64
-centos-6-5-x32
-centos-6-5-x64
-centos-7-0-x64
-coreos-alpha
-coreos-beta
+distros               size
+centos-5-8-x32        512mb
+centos-5-8-x64        1gb
+centos-6-5-x32        2gb
+centos-6-5-x64        4gb
+centos-7-0-x64        16gb
+coreos-alpha          32gb
+coreos-beta           64gb
 coreos-stable
 debian-6-0-x32
 debian-6-0-x64
