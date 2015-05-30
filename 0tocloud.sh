@@ -32,6 +32,9 @@ while [ "$1" != "" ]; do
                                 ;;
         -r | --refresh )        refresh=1
                                 ;;
+        -S | --size )           shift
+                                size=$1
+                                ;;
         -s | --show )           show=1
                                 ;;
         --help )                usage
@@ -65,7 +68,11 @@ if [ -z $hostname ]; then
   hostname="0toCloud"
 fi
 
-echo "creating a $distro droplet with hostname $hostname"
+if [ -z $size ]; then
+  size="512mb"
+fi
+
+echo "creating a $size $distro droplet with hostname $hostname"
 
 #make sure unzip is installed 
 type unzip >/dev/null 2>&1 || { echo "Dowloading unzip via apt-get" \ 
@@ -126,22 +133,22 @@ fi
 
 
 if [ $destroy -eq 1 ] >/dev/null 2>&1; then
-  terraform destroy -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" 
+  terraform destroy -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}" 
   exit 1
 fi
 
 if [ $plan -eq 1 ] >/dev/null 2>&1; then
-  terraform plan -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" 
+  terraform plan -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}"
   exit 1
 fi
 
 if [ $refresh -eq 1 ] >/dev/null 2>&1; then
-  terraform refresh -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" 
+  terraform refresh -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}"
   exit 1
 fi
 
 #now starting terraform magic and creating the instance
 
-terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}"
+terraform apply -var "do_token=${DOKey}" -var "ssh_fingerprint=${sshkeyFP}" -var "do_distro=${distro}" -var "do_hostname=${hostname}" -var "do_size=${size}"
 
 terraform show
