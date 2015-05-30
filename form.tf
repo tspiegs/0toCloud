@@ -18,7 +18,9 @@ resource "digitalocean_droplet" "0toCloud" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "sudo apt-get update",
-      "sudo apt-get -y upgrade"
+      "sudo apt-get -y install nginx",
+      "sudo sed -i s/working/working\ powered\ by\ 0toCloud/ /usr/share/nginx/html/index.html",
+      "sudo /etc/init.d/nginx restart"
     ]
   }
 }
