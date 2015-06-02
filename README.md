@@ -2,7 +2,7 @@ This is a easy way for beginners to automatically startup a cloud server
 
 run 0tocloud.sh --help to see usage
 
-CURRENTLY UBUNTU ONLY! will be working on OSX when I have time :)
+CURRENTLY UBUNTU  64 bit ONLY! will be working on OSX when I have time :)
 
 Running the startup script will (after a few more commits):
   1.  Download Terraform
