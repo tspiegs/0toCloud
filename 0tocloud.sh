@@ -31,12 +31,12 @@ while [ "$1" != "" ]; do
         -R | --region )         shift
                                 region=$1
                                 ;;
+        -S | --size )           shift
+                                size=$1
+                                ;;
         -p | --plan )           plan=1
                                 ;;
         -r | --refresh )        refresh=1
-                                ;;
-        -S | --size )           shift
-                                size=$1
                                 ;;
         -s | --show )           show=1
                                 ;;
