@@ -1,6 +1,6 @@
-resource "digitalocean_droplet" "0toCloudwithBastion" {
+resource "digitalocean_droplet" "0toCloudwebserver1" {
   image = "${var.do_distro}"
-  name = "${var.do_hostname}"
+  name = "0toCloudwww2"
   region = "${var.do_region}"
   size = "${var.do_size}"
   private_networking = true

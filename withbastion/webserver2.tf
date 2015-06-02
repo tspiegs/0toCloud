@@ -1,6 +1,6 @@
-resource "digitalocean_droplet" "0toCloudBastionhost" {
+resource "digitalocean_droplet" "0toCloudwebserver2" {
   image = "${var.do_distro}"
-  name = "0toCloudBastionhost"
+  name = "0toCloudwww2"
   region = "${var.do_region}"
   size = "${var.do_size}"
   private_networking = true
@@ -19,14 +19,9 @@ resource "digitalocean_droplet" "0toCloudBastionhost" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "sudo apt-get update",
-      "sudo apt-get -y install ufw haproxy",
-      "sudo ufw default deny incoming",
-      "sudo ufw default allow outgoing",
-      "sudo ufw allow 22/tcp",
-      "sudo ufw allow 80/tcp",
-      "sudo ufw disable",
-      "sudo ufw --force enable"
-
+      "sudo apt-get -y install nginx",
+      "sudo sed -i s/working/working\ powered\ by\ 0toCloud/ /usr/share/nginx/html/index.html",
+      "sudo /etc/init.d/nginx restart"
     ]
   }
 }
