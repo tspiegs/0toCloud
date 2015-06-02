@@ -1,9 +1,8 @@
 resource "digitalocean_droplet" "0toCloud" {
   image = "${var.do_distro}"
   name = "${var.do_hostname}"
-  region = "nyc2"
-  private
-  size = "512mb"
+  region = "${var.do_region}"
+  size = "${var.do_size}"
   private_networking = true
   ssh_keys = [
     "${var.ssh_fingerprint}"
@@ -26,10 +25,8 @@ resource "digitalocean_droplet" "0toCloud" {
       "sudo ufw allow 22/tcp",
       "sudo ufw allow 80/tcp",
       "sudo ufw disable",
-      "sudo ufw enable",
+      "sudo ufw enable"
 
-      "sudo sed -i s/working/working\ powered\ by\ 0toCloud/ /usr/share/nginx/html/index.html",
-      "sudo /etc/init.d/nginx restart"
     ]
   }
 }

@@ -1,8 +1,8 @@
-resource "digitalocean_droplet" "0toCloud" {
+resource "digitalocean_droplet" "0toCloudwithBastion" {
   image = "${var.do_distro}"
   name = "${var.do_hostname}"
-  region = "nyc2"
-  size = "512mb"
+  region = "${var.do_region}"
+  size = "${var.do_size}"
   private_networking = true
   ssh_keys = [
     "${var.ssh_fingerprint}"

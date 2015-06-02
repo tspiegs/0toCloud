@@ -34,6 +34,8 @@ while [ "$1" != "" ]; do
         -S | --size )           shift
                                 size=$1
                                 ;;
+        -B | --bastion )        bastion=1
+                                ;;
         -p | --plan )           plan=1
                                 ;;
         -r | --refresh )        refresh=1
@@ -50,6 +52,11 @@ while [ "$1" != "" ]; do
     esac
     shift
 done
+
+if [ $bastion -eq 1 ] >/dev/null 2>&1; then
+ cd withbastion
+ ls
+fi
 
 if [ $show -eq 1 ] >/dev/null 2>&1; then
   terraform show 
